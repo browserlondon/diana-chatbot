@@ -4,8 +4,13 @@
   box-sizing: border-box;
 }
 
+:root {
+  --t-accent: #5265f7;
+  --t-alt: #f46565;
+}
+
 body {
-  font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family: adelle-sans, sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -70,6 +75,9 @@ div {
 
 #chat-column-holder {
   text-align: center;
+  background-color: var(--t-accent);
+  align-items: center;
+  display: flex;
 }
 
 .chat-column {
@@ -77,8 +85,9 @@ div {
   padding: 0.9375rem 0 0.625rem 0;
   margin: auto;
   text-align: left;
-  max-width: 25rem;
-  min-width: 9.375rem;
+  max-width: 35rem;
+  width: 70%;
+  background-color: #fff;
 }
 
 .user-typing {
@@ -131,7 +140,7 @@ div {
   color: #fff;
   letter-spacing: 0.015rem;
   line-height: 1.3125rem;
-  background: #00B4A0;
+  background: var(--t-accent);
   border-radius: 1.25rem;
   border-bottom-right-radius: 0;
   text-align: left;
@@ -185,15 +194,18 @@ div {
 }
 
 .from-watson p {
-  margin: 0.3125rem;
+  margin: 1em 0.3125rem;
   padding: 0 1.25rem;
+  font-family: input-mono, monospace;
+  font-size: 0.9em;
 }
 
 .from-watson.latest.top p:before {
   content: ".";
-  color: #9855D4;
-  background-image: url("../img/marker_image.png");
-  background-size: 0.3125rem 1.3125rem;
+  color: var(--t-alt);
+  background-color: var(--t-alt);
+  mask-image: url("../img/marker_image.png");
+  mask-size: 0.3125rem 1.3125rem;
   position: absolute;
   z-index: 2;
   left: 0.4375rem;
@@ -219,7 +231,7 @@ div {
 }
 
 #textInput.underline {
-  border-bottom: 2px solid #00B4A0;
+  border-bottom: 2px solid var(--t-accent);
 }
 
 ::-webkit-input-placeholder {

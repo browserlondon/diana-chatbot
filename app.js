@@ -17,6 +17,7 @@
 'use strict';
 
 var express = require('express'); // app server
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser'); // parser for post requests
 var AssistantV1 = require('watson-developer-cloud/assistant/v1'); // watson sdk
 
@@ -25,6 +26,7 @@ var app = express();
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // Create the service wrapper
 
@@ -34,6 +36,7 @@ var assistant = new AssistantV1({
 
 // Endpoint to be call from the client side
 app.post('/api/message', function (req, res) {
+
   var workspace = process.env.WORKSPACE_ID || '<workspace-id>';
   if (!workspace || workspace === '<workspace-id>') {
     return res.json({
@@ -54,7 +57,7 @@ app.post('/api/message', function (req, res) {
       return res.status(err.code || 500).json(err);
     }
 
-    return res.json(updateMessage(payload, data));
+    return res.json(updateMessage(payload, data, req.cookies));
   });
 });
 
@@ -64,8 +67,16 @@ app.post('/api/message', function (req, res) {
  * @param  {Object} response The response from the Assistant service
  * @return {Object}          The response with the updated message
  */
-function updateMessage(input, response) {
+function updateMessage(input, response, cookies) {
   var responseText = null;
+
+  console.log(response);
+
+  if (response.context && response.context.setSupportContext === true) {
+    console.log('setting support context');
+    response.context.supportDetailsResponse = JSON.parse(cookies.supportDetails);
+  }
+
   if (!response.output) {
     response.output = {};
   } else {
